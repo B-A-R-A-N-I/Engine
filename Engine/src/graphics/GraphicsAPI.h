@@ -1,0 +1,30 @@
+#pragma once
+#include <glad/glad.h>
+#include <memory>
+#include <vector>
+#include <string>
+
+namespace eng
+{
+	class ShaderProgram;
+	class Material;
+	class Mesh;
+
+	class GraphicsAPI
+	{
+	public:
+		bool Init();
+		std::shared_ptr<ShaderProgram> CreateShaderProgram(const std::string& vertexSource, const std::string& fragmentSource);
+
+		unsigned int CreateVertexBuffer(const std::vector<float>& vertices);
+		unsigned int CreateIndexBuffer(const std::vector<uint32_t>& indices);
+
+		void SetClearColor(float r, float g, float b, float a);
+		void ClearBuffers();
+
+		void BindShaderProgram(ShaderProgram* shaderProgram);
+		void BindMaterial(Material* material);
+		void BindMesh(Mesh* mesh);
+		void DrawMesh(Mesh* mesh);
+	};
+}
