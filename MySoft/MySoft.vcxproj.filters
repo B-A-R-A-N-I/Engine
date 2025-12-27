@@ -27,6 +27,15 @@
     <ClCompile Include="src\TestObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bullet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\JumpPlatform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\SnakeGame.h">
@@ -41,15 +50,84 @@
     <ClInclude Include="src\TestObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\JumpPlatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\brick.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="assets\models\Suzanne_MetallicRoughness.png">
+    <Image Include="assets\models\suzanne\Suzanne_MetallicRoughness.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="assets\models\Suzanne_BaseColor.png">
+    <Image Include="assets\models\suzanne\Suzanne_BaseColor.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\sten_gunmachine_carbine\textures\material_0_baseColor.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\sten_gunmachine_carbine\textures\material_0_baseColor2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\sten_gunmachine_carbine\textures\material_1_baseColor.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\sten_gunmachine_carbine\textures\material_2_baseColor.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\scifi_gun\textures\ChumboScyFi_baseColor.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\scifi_gun\textures\ChumboScyFi_metallicRoughness.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\scifi_gun\textures\ChumboScyFi_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\toy_mashine_gun_low_poly\textures\Toy_mashine_gun_baseColor.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\toy_mashine_gun_low_poly\textures\Toy_mashine_gun_metallicRoughness.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\toy_mashine_gun_low_poly\textures\Toy_mashine_gun_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\checker.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\sci_fi_sub_machine_gun\textures\scope_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\sci_fi_sub_machine_gun\textures\barrell_baseColor.jpeg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\sci_fi_sub_machine_gun\textures\barrell_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\sci_fi_sub_machine_gun\textures\new_gun_0002_baseColor.jpeg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\sci_fi_sub_machine_gun\textures\new_gun_0002_normal.jpeg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\sci_fi_sub_machine_gun\textures\scope_baseColor.jpeg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\textures\ChumboScyFi_DIFF.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\textures\ChumboScyFi_NRM.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\models\textures\ChumboScyFi_SPEC.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -57,10 +135,50 @@
     <None Include="assets\shaders\vertex.glsl" />
     <None Include="assets\shaders\fragment.glsl" />
     <None Include="assets\materials\brick.mat" />
-    <None Include="assets\models\Suzanne.bin">
+    <None Include="assets\models\suzanne\Suzanne.bin">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="assets\models\Suzanne.gltf" />
+    <None Include="assets\models\suzanne\Suzanne.gltf" />
     <None Include="assets\materials\suzanne.mat" />
+    <None Include="assets\models\sten_gunmachine_carbine\scene.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\models\sten_gunmachine_carbine\scene.gltf" />
+    <None Include="assets\models\scifi_gun\scene.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\models\scifi_gun\scene.gltf" />
+    <None Include="assets\models\toy_mashine_gun_low_poly\scene.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\models\toy_mashine_gun_low_poly\scene.gltf" />
+    <None Include="assets\models\scene_gun\scene.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\models\scene_gun\scene.gltf" />
+    <None Include="assets\scenes\scene.sc" />
+    <None Include="assets\materials\checker.mat" />
+    <None Include="assets\models\sci_fi_sub_machine_gun\scene.gltf" />
+    <None Include="assets\models\sci_fi_sub_machine_gun\scene.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="assets\models\sten_gunmachine_carbine\license.txt" />
+    <Text Include="assets\models\scene_gun\license.txt" />
+    <Text Include="assets\models\scifi_gun\license.txt" />
+    <Text Include="assets\models\toy_mashine_gun_low_poly\license.txt" />
+    <Text Include="assets\models\sci_fi_sub_machine_gun\license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\audio\jump.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\audio\shoot.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\audio\step.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

@@ -20,16 +20,18 @@ namespace eng
 			shaderProgram->SetUniform("uModel", command.modelMatrix);
 			shaderProgram->SetUniform("uView", cameraData.viewMatrix);
 			shaderProgram->SetUniform("uProjection", cameraData.projectionMatrix);
-			
+			shaderProgram->SetUniform("uCameraPos", cameraData.position);
+
 			if (!lights.empty())
 			{
 				auto& light = lights[0];
 				shaderProgram->SetUniform("uLight.color", light.color);
-				shaderProgram->SetUniform("uLight.position", light.position);
+				shaderProgram->SetUniform("uLight.direction", glm::normalize(-light.position));
 			}
 
 			graphicsAPI.BindMesh(command.mesh);
 			graphicsAPI.DrawMesh(command.mesh);
+			graphicsAPI.UnbindMesh(command.mesh);
 		}
 
 		m_commands.clear();

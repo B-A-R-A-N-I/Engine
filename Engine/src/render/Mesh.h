@@ -1,6 +1,7 @@
 #pragma once
 #include <glad/glad.h>
 #include <graphics/VertexLayout.h>
+#include <glm/vec3.hpp>
 #include <memory>
 #include <string>
 
@@ -15,10 +16,11 @@ namespace eng
 		Mesh operator = (const Mesh&) = delete;
 
 		void Bind();
+		void Unbind();
 		void Draw();
 
-		static std::shared_ptr<Mesh> CreateCube();
-		static std::shared_ptr<Mesh> Load(const std::string& path);
+		static std::shared_ptr<Mesh> CreateBox(const glm::vec3& extents = glm::vec3(1.0f));
+		static std::shared_ptr<Mesh> CreateSphere(float radius, int sectors, int stacks);
 
 	private:
 		VertexLayout m_vertexLayout;

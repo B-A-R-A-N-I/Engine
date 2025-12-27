@@ -15,6 +15,7 @@ namespace eng
 	public:
 		bool Init();
 		std::shared_ptr<ShaderProgram> CreateShaderProgram(const std::string& vertexSource, const std::string& fragmentSource);
+		const std::shared_ptr<ShaderProgram>& GetDefaultShaderProgram();
 
 		unsigned int CreateVertexBuffer(const std::vector<float>& vertices);
 		unsigned int CreateIndexBuffer(const std::vector<uint32_t>& indices);
@@ -25,6 +26,10 @@ namespace eng
 		void BindShaderProgram(ShaderProgram* shaderProgram);
 		void BindMaterial(Material* material);
 		void BindMesh(Mesh* mesh);
+		void UnbindMesh(Mesh* mesh);
 		void DrawMesh(Mesh* mesh);
+
+	private:
+		std::shared_ptr<ShaderProgram> m_defaultShaderProgram;
 	};
 }

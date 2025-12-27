@@ -43,6 +43,8 @@ namespace eng
 
 		glm::vec2 currentPos(static_cast<float>(xpos), static_cast<float>(ypos));
 		inputManager.SetMousePositionCurrent(currentPos);
+
+		inputManager.SetMousePositionChanged(true);
 	}
 
 	Engine& Engine::GetInstance()
@@ -57,6 +59,13 @@ namespace eng
 		{
 			return false;
 		}
+
+		Scene::RegisterTypes();
+		m_application->RegisterTypes();
+
+#if defined (__linux__)
+		glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
+#endif
 
 		if (!glfwInit())
 		{
@@ -80,11 +89,14 @@ namespace eng
 		glfwSetKeyCallback(m_window, keyCallback);
 		glfwSetMouseButtonCallback(m_window, mouseButtonCallback);
 		glfwSetCursorPosCallback(m_window, cursorPositionCallback);
+		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 		glfwMakeContextCurrent(m_window);
 		gladLoadGL();
 
 		m_graphicsAPI.Init();
+		m_physicsManager.Init();
+		m_audioManager.Init();
 		return m_application->Init();
 	}
 
@@ -95,20 +107,22 @@ namespace eng
 			return;
 		}
 
-		m_lastTimePoint = std::chrono::high_resolution_clock::now();
+		m_lastTimePoint = std::chrono::steady_clock::now();
 		while (!glfwWindowShouldClose(m_window) && !m_application->NeedsToBeClosed())
 		{
 			// processing inputs
 			glfwPollEvents();
 
 			// updating application logic
-			auto now = std::chrono::high_resolution_clock::now();
+			auto now = std::chrono::steady_clock::now();
 			float deltaTime = std::chrono::duration<float>(now - m_lastTimePoint).count();
 			m_lastTimePoint = now;
 
+			m_physicsManager.Update(deltaTime);
+
 			m_application->Update(deltaTime);
 
-			m_graphicsAPI.SetClearColor(0.1f, 0.1f, 0.1f, 0.9f);
+			m_graphicsAPI.SetClearColor(0.8f, 0.8f, 0.8f, 1.0f); // Sky color
 			m_graphicsAPI.ClearBuffers();
 
 			CameraData cameraData;
@@ -129,6 +143,7 @@ namespace eng
 					{
 						cameraData.viewMatrix = cameraComponent->GetViewMatrix();
 						cameraData.projectionMatrix = cameraComponent->GetProjectionMatrix(aspect);
+						cameraData.position = cameraObject->GetWorldPosition();
 					}
 				}
 
@@ -140,7 +155,7 @@ namespace eng
 			// rendering
 			glfwSwapBuffers(m_window);
 
-			m_inputManager.SetMousePositionOld(m_inputManager.GetMousePositionCurrent());
+			m_inputManager.SetMousePositionChanged(false);
 		}
 	}
 
@@ -183,6 +198,21 @@ namespace eng
 	FileSystem& Engine::GetFileSystem()
 	{
 		return m_fileSystem;
+	}
+
+	TextureManager& Engine::GetTextureManager()
+	{
+		return m_textureManager;
+	}
+
+	PhysicsManager& Engine::GetPhysicsManager()
+	{
+		return m_physicsManager;
+	}
+
+	AudioManager& Engine::GetAudioManager()
+	{
+		return m_audioManager;
 	}
 
 	void Engine::SetScene(Scene* scene)

@@ -31,6 +31,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -38,12 +39,14 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -51,6 +54,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -78,13 +82,17 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Engine\src;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -96,13 +104,17 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Engine\src;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -112,13 +124,17 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Engine\src;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -130,22 +146,32 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Engine\src;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Bullet.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\JumpPlatform.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\TestObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Bullet.h" />
     <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\JumpPlatform.h" />
+    <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\SnakeGame.h" />
     <ClInclude Include="src\Test.h" />
     <ClInclude Include="src\TestObject.h" />
@@ -156,17 +182,61 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\models\Suzanne_BaseColor.png" />
-    <Image Include="assets\models\Suzanne_MetallicRoughness.png" />
+    <Image Include="assets\models\scifi_gun\textures\ChumboScyFi_baseColor.png" />
+    <Image Include="assets\models\scifi_gun\textures\ChumboScyFi_metallicRoughness.png" />
+    <Image Include="assets\models\scifi_gun\textures\ChumboScyFi_normal.png" />
+    <Image Include="assets\models\sci_fi_sub_machine_gun\textures\barrell_baseColor.jpeg" />
+    <Image Include="assets\models\sci_fi_sub_machine_gun\textures\barrell_normal.png" />
+    <Image Include="assets\models\sci_fi_sub_machine_gun\textures\new_gun_0002_baseColor.jpeg" />
+    <Image Include="assets\models\sci_fi_sub_machine_gun\textures\new_gun_0002_normal.jpeg" />
+    <Image Include="assets\models\sci_fi_sub_machine_gun\textures\scope_baseColor.jpeg" />
+    <Image Include="assets\models\sci_fi_sub_machine_gun\textures\scope_normal.png" />
+    <Image Include="assets\models\sten_gunmachine_carbine\textures\material_0_baseColor.png" />
+    <Image Include="assets\models\sten_gunmachine_carbine\textures\material_0_baseColor2.png" />
+    <Image Include="assets\models\sten_gunmachine_carbine\textures\material_1_baseColor.png" />
+    <Image Include="assets\models\sten_gunmachine_carbine\textures\material_2_baseColor.png" />
+    <Image Include="assets\models\suzanne\Suzanne_BaseColor.png" />
+    <Image Include="assets\models\suzanne\Suzanne_MetallicRoughness.png" />
+    <Image Include="assets\models\textures\ChumboScyFi_DIFF.png" />
+    <Image Include="assets\models\textures\ChumboScyFi_NRM.png" />
+    <Image Include="assets\models\textures\ChumboScyFi_SPEC.png" />
+    <Image Include="assets\models\toy_mashine_gun_low_poly\textures\Toy_mashine_gun_baseColor.png" />
+    <Image Include="assets\models\toy_mashine_gun_low_poly\textures\Toy_mashine_gun_metallicRoughness.png" />
+    <Image Include="assets\models\toy_mashine_gun_low_poly\textures\Toy_mashine_gun_normal.png" />
     <Image Include="assets\textures\brick.png" />
+    <Image Include="assets\textures\checker.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\materials\brick.mat" />
+    <None Include="assets\materials\checker.mat" />
     <None Include="assets\materials\suzanne.mat" />
-    <None Include="assets\models\Suzanne.bin" />
-    <None Include="assets\models\Suzanne.gltf" />
+    <None Include="assets\models\scene_gun\scene.bin" />
+    <None Include="assets\models\scene_gun\scene.gltf" />
+    <None Include="assets\models\scifi_gun\scene.bin" />
+    <None Include="assets\models\scifi_gun\scene.gltf" />
+    <None Include="assets\models\sci_fi_sub_machine_gun\scene.bin" />
+    <None Include="assets\models\sci_fi_sub_machine_gun\scene.gltf" />
+    <None Include="assets\models\sten_gunmachine_carbine\scene.bin" />
+    <None Include="assets\models\sten_gunmachine_carbine\scene.gltf" />
+    <None Include="assets\models\suzanne\Suzanne.bin" />
+    <None Include="assets\models\suzanne\Suzanne.gltf" />
+    <None Include="assets\models\toy_mashine_gun_low_poly\scene.bin" />
+    <None Include="assets\models\toy_mashine_gun_low_poly\scene.gltf" />
+    <None Include="assets\scenes\scene.sc" />
     <None Include="assets\shaders\fragment.glsl" />
     <None Include="assets\shaders\vertex.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="assets\models\scene_gun\license.txt" />
+    <Text Include="assets\models\scifi_gun\license.txt" />
+    <Text Include="assets\models\sci_fi_sub_machine_gun\license.txt" />
+    <Text Include="assets\models\sten_gunmachine_carbine\license.txt" />
+    <Text Include="assets\models\toy_mashine_gun_low_poly\license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\audio\jump.wav" />
+    <Media Include="assets\audio\shoot.wav" />
+    <Media Include="assets\audio\step.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

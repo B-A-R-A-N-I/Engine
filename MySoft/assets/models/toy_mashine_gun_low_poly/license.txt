@@ -1,0 +1,11 @@
+Model Information:
+* title:	Toy Mashine Gun Low Poly
+* source:	https://sketchfab.com/3d-models/toy-mashine-gun-low-poly-88372cfa0f674df797c33dd8975e99cb
+* author:	gustavsx12 (https://sketchfab.com/gustavsx12)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Toy Mashine Gun Low Poly" (https://sketchfab.com/3d-models/toy-mashine-gun-low-poly-88372cfa0f674df797c33dd8975e99cb) by gustavsx12 (https://sketchfab.com/gustavsx12) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

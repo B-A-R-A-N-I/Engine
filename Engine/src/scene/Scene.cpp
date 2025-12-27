@@ -1,10 +1,43 @@
 #include "Scene.h"
+#include "scene/components/MeshComponent.h"
+#include "scene/components/CameraComponent.h"
+#include "scene/components/PlayerControllerComponent.h"
 #include "scene/components/LightComponent.h"
+#include "scene/components/AnimationComponent.h"
+#include "scene/components/PhysicsComponent.h"
+#include "scene/components/AudioComponent.h"
+#include "scene/components/AudioListenerComponent.h"
+#include "Engine.h"
 
 namespace eng
 {
+	void Scene::RegisterTypes()
+	{
+		MeshComponent::Register();
+		CameraComponent::Register();
+		PlayerControllerComponent::Register();
+		LightComponent::Register();
+		AnimationComponent::Register();
+		PhysicsComponent::Register();
+		AudioComponent::Register();
+		AudioListenerComponent::Register();
+	}
+
 	void Scene::Update(float deltaTime)
 	{
+		m_objects.erase(
+			std::remove_if(m_objects.begin(), m_objects.end(),
+				[](const std::unique_ptr<GameObject>& obj) { return !obj->IsAlive(); }),
+			m_objects.end()
+		);
+
+		for (auto& obj : m_objectsToAdd)
+		{
+			SetParent(obj.first, obj.second);
+		}
+		m_objectsToAdd.clear();
+
+		m_isUpdating = true;
 		for (auto it = m_objects.begin(); it != m_objects.end();)
 		{
 			if ((*it)->IsAlive())
@@ -17,6 +50,7 @@ namespace eng
 				it = m_objects.erase(it);
 			}
 		}
+		m_isUpdating = false;
 	}
 
 	void Scene::Clear()
@@ -28,8 +62,34 @@ namespace eng
 	{
 		auto obj = new GameObject();
 		obj->SetName(name);
-		SetParent(obj, parent);
+		obj->m_scene = this;
+		if (m_isUpdating)
+		{
+			m_objectsToAdd.push_back({ obj, parent });
+		}
+		else
+		{
+			SetParent(obj, parent);
+		}
+		return obj;
+	}
 
+	GameObject* Scene::CreateObject(const std::string& type, const std::string& name, GameObject* parent)
+	{
+		auto obj = GameObjectFactory::GetInstance().CreateGameObject(type);
+		if (obj)
+		{
+			obj->SetName(name);
+			obj->m_scene = this;
+			if (m_isUpdating)
+			{
+				m_objectsToAdd.push_back({ obj, parent });
+			}
+			else
+			{
+				SetParent(obj, parent);
+			}
+		}
 		return obj;
 	}
 
@@ -180,12 +240,56 @@ namespace eng
 		std::vector<LightData> lights;
 		for (auto& obj : m_objects)
 		{
-			CollectLightRecursive(obj.get(), lights);
+			CollectLightsRecursive(obj.get(), lights);
 		}
 		return lights;
 	}
 
-	void Scene::CollectLightRecursive(GameObject* obj, std::vector<LightData>& out)
+	std::shared_ptr<Scene> Scene::Load(const std::string& path)
+	{
+		const std::string contents = Engine::GetInstance().GetFileSystem().LoadAssetFileText(path);
+		if (contents.empty())
+		{
+			return nullptr;
+		}
+
+		auto json = nlohmann::json::parse(contents);
+		if (json.empty())
+		{
+			return nullptr;
+		}
+
+		auto result = std::make_shared<Scene>();
+
+		const std::string sceneName = json.value("name", "noname");
+
+		if (json.contains("objects") && json["objects"].is_array())
+		{
+			const auto& objects = json["objects"];
+
+			for (const auto& obj : objects)
+			{
+				result->LoadObject(obj, nullptr);
+			}
+		}
+
+		if (json.contains("camera"))
+		{
+			std::string cameraObjName = json.value("camera", "");
+			for (const auto& child : result->m_objects)
+			{
+				if (auto object = child->FindChildByName(cameraObjName))
+				{
+					result->SetMainCamera(object);
+					break;
+				}
+			}
+		}
+
+		return result;
+	}
+
+	void Scene::CollectLightsRecursive(GameObject* obj, std::vector<LightData>& out)
 	{
 		if (auto light = obj->GetComponent<LightComponent>())
 		{
@@ -197,7 +301,103 @@ namespace eng
 
 		for (auto& child : obj->m_children)
 		{
-			CollectLightRecursive(child.get(), out);
+			CollectLightsRecursive(child.get(), out);
 		}
+	}
+
+	void Scene::LoadObject(const nlohmann::json& jsonObject, GameObject* parent)
+	{
+		const std::string name = jsonObject.value("name", "Object");
+
+		GameObject* gameObject = nullptr;
+
+		if (jsonObject.contains("type"))
+		{
+			const std::string type = jsonObject.value("type", "");
+			if (type == "gltf")
+			{
+				std::string path = jsonObject.value("path", "");
+				gameObject = GameObject::LoadGLTF(path, this);
+				if (gameObject)
+				{
+					gameObject->SetParent(parent);
+					gameObject->SetName(name);
+				}
+			}
+			else
+			{
+				gameObject = CreateObject(type, name, parent);
+			}
+		}
+		else
+		{
+			gameObject = CreateObject(name, parent);
+		}
+
+		if (!gameObject)
+		{
+			return;
+		}
+
+		// Position
+		if (jsonObject.contains("position"))
+		{
+			auto posObj = jsonObject["position"];
+			glm::vec3 pos;
+			pos.x = posObj.value("x", 0.0f);
+			pos.y = posObj.value("y", 0.0f);
+			pos.z = posObj.value("z", 0.0f);
+			gameObject->SetPosition(pos);
+		}
+
+		// Rotation (quaternion)
+		if (jsonObject.contains("rotation"))
+		{
+			auto rotObj = jsonObject["rotation"];
+			glm::quat rot;
+			rot.x = rotObj.value("x", 0.0f);
+			rot.y = rotObj.value("y", 0.0f);
+			rot.z = rotObj.value("z", 0.0f);
+			rot.w = rotObj.value("w", 1.0f);
+			gameObject->SetRotation(rot);
+		}
+
+		// Scale
+		if (jsonObject.contains("scale"))
+		{
+			auto scaleObj = jsonObject["scale"];
+			glm::vec3 scale;
+			scale.x = scaleObj.value("x", 1.0f);
+			scale.y = scaleObj.value("y", 1.0f);
+			scale.z = scaleObj.value("z", 1.0f);
+			gameObject->SetScale(scale);
+		}
+
+		gameObject->LoadProperties(jsonObject);
+
+		if (jsonObject.contains("components") && jsonObject["components"].is_array())
+		{
+			const auto& components = jsonObject["components"];
+			for (const auto& comp : components)
+			{
+				const std::string type = comp.value("type", "");
+				Component* component = ComponentFactory::GetInstance().CreateComponent(type);
+				if (component)
+				{
+					component->LoadProperties(comp);
+					gameObject->AddComponent(component);
+				}
+			}
+		}
+
+		if (jsonObject.contains("children") && jsonObject["children"].is_array())
+		{
+			const auto& children = jsonObject["children"];
+			for (const auto& child : children)
+			{
+				LoadObject(child, gameObject);
+			}
+		}
+		gameObject->Init();
 	}
 }
